@@ -1,10 +1,11 @@
 import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:nestoria_appartments/stores/SearchField/SearchField.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 
 final searchField = SearchField();
 final location = new Location();
@@ -39,8 +40,8 @@ class SearchForm extends StatelessWidget {
 
   void searchApartments() async {
     String url = 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=search_listings&encoding=json&listing_type=buy&page=1&place_name=${searchField.searchValue}';
-    final response = await http.get(url);
-    final apartments = json.decode(response.body);
+    final response = await Dio().get(url);
+    final apartments = json.decode(response.data);
     final newListings = new ObservableList.of(apartments['response']['listings']);
     listings.fetchListings(newListings);
     print('apartments: $newListings');
