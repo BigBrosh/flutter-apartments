@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nestoria_appartments/models/Listing.dart';
 
 class Listing extends StatelessWidget {
-  final Map<String, dynamic> listing;
+  final ListingModel listing;
 
   Listing(this.listing);
 
@@ -10,7 +11,7 @@ class Listing extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Image.network(
-          listing['img_url'],
+          listing.thumbUrl,
           height: 80,
           width: 80,
           fit: BoxFit.cover
@@ -25,12 +26,12 @@ class Listing extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '${listing['price_formatted']}',
+              '${listing.priceFormatted}',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8,),
             Text(
-              '${listing['title']}',
+              '${listing.title}',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 16),
             )

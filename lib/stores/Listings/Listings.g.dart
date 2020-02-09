@@ -12,14 +12,14 @@ mixin _$Listings on _Listings, Store {
   final _$listAtom = Atom(name: '_Listings.list');
 
   @override
-  ObservableList get list {
+  ObservableList<ListingModel> get list {
     _$listAtom.context.enforceReadPolicy(_$listAtom);
     _$listAtom.reportObserved();
     return super.list;
   }
 
   @override
-  set list(ObservableList value) {
+  set list(ObservableList<ListingModel> value) {
     _$listAtom.context.conditionallyRunInAction(() {
       super.list = value;
       _$listAtom.reportChanged();
