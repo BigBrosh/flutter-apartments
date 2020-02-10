@@ -26,15 +26,11 @@ mixin _$Listings on _Listings, Store {
     }, _$listAtom, name: '${_$listAtom.name}_set');
   }
 
-  final _$_ListingsActionController = ActionController(name: '_Listings');
+  final _$fetchListingsAsyncAction = AsyncAction('fetchListings');
 
   @override
-  void fetchListings(ObservableList newListings) {
-    final _$actionInfo = _$_ListingsActionController.startAction();
-    try {
-      return super.fetchListings(newListings);
-    } finally {
-      _$_ListingsActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> fetchListings(String searchValue) {
+    return _$fetchListingsAsyncAction
+        .run(() => super.fetchListings(searchValue));
   }
 }
