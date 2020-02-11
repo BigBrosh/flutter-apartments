@@ -1,9 +1,10 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:nestoria_appartments/models/Listing.dart';
+import 'package:nestoria_appartments/services/ListingsService/ListingsService.dart';
+import 'package:nestoria_appartments/services/ListingsService/ListingsServiceInterface.dart';
 part 'Listings.g.dart';
 
+final defaultService = new ListingsService();
 class Listings = _Listings with _$Listings;
 
 abstract class _Listings with Store {
@@ -11,12 +12,10 @@ abstract class _Listings with Store {
   ObservableList<ListingModel> list = new ObservableList();
 
   @action
-  Future fetchListings(String searchValue) async {
-    String url = 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=search_listings&encoding=json&listing_type=buy&page=1&place_name=$searchValue';
-    final response = await Dio().get(url);
-    final decoded = json.decode(response.data)['response']['listings'];
+  Future fetchListings(String searchValue, { ListingsServiceInterface listingsService }) async {
+    final listings = await (listingsService ?? defaultService).getBySearchValue(searchValue);
     ObservableList<ListingModel> observableListings = new ObservableList.of(
-        (decoded as List).map((i) => new ListingModel.fromJson(i)).toList()
+        listings.map((i) => new ListingModel.fromJson(i)).toList()
     );
 
     list = observableListings;

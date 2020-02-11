@@ -29,8 +29,9 @@ mixin _$Listings on _Listings, Store {
   final _$fetchListingsAsyncAction = AsyncAction('fetchListings');
 
   @override
-  Future<dynamic> fetchListings(String searchValue) {
-    return _$fetchListingsAsyncAction
-        .run(() => super.fetchListings(searchValue));
+  Future<dynamic> fetchListings(String searchValue,
+      {ListingsServiceInterface listingsService}) {
+    return _$fetchListingsAsyncAction.run(() =>
+        super.fetchListings(searchValue, listingsService: listingsService));
   }
 }
