@@ -25,20 +25,12 @@ class SearchForm extends StatelessWidget {
   }
 
   void searchApartments() {
-    listings.fetchListings(searchField.searchValue);
+    listings.getBySearchValue(searchField.searchValue);
   }
 
   void searchApartmentsByLocation() async {
-    try {
-      LocationData currentLocation = await location.getLocation();
-      print(currentLocation.latitude);
-      print(currentLocation.longitude);
-      print(currentLocation.accuracy);
-      print(currentLocation.heading);
-      print(currentLocation.time);
-    } catch (e) {
-      print('error $e');
-    }
+    LocationData currentLocation = await location.getLocation();
+    listings.getByCurrentLocation(currentLocation);
   }
 
   Widget formButtons(BuildContext context) {

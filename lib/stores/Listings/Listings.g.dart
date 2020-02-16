@@ -26,12 +26,15 @@ mixin _$Listings on _Listings, Store {
     }, _$listAtom, name: '${_$listAtom.name}_set');
   }
 
-  final _$fetchListingsAsyncAction = AsyncAction('fetchListings');
+  final _$_ListingsActionController = ActionController(name: '_Listings');
 
   @override
-  Future<dynamic> fetchListings(String searchValue,
-      {ListingsServiceInterface listingsService}) {
-    return _$fetchListingsAsyncAction.run(() =>
-        super.fetchListings(searchValue, listingsService: listingsService));
+  void fetchListings(List listings) {
+    final _$actionInfo = _$_ListingsActionController.startAction();
+    try {
+      return super.fetchListings(listings);
+    } finally {
+      _$_ListingsActionController.endAction(_$actionInfo);
+    }
   }
 }
