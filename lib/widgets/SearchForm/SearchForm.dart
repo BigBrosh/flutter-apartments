@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nestoria_appartments/stores/SearchField/SearchField.dart';
 import 'package:location/location.dart';
+import 'package:nestoria_appartments/widgets/PrimaryButton/PrimaryButton.dart';
 
 final searchField = SearchField();
 final location = new Location();
@@ -20,17 +21,6 @@ class SearchForm extends StatelessWidget {
         hintText: 'Start typing apartment name',
         isDense: true
       ),
-    );
-  }
-
-  Widget primaryButton(String title, BuildContext context, Function action) {
-    return (
-        RaisedButton(
-            child: Text(title),
-            color: Theme.of(context).accentColor,
-            textColor: Colors.white,
-            onPressed: action
-        )
     );
   }
 
@@ -55,8 +45,8 @@ class SearchForm extends StatelessWidget {
     return Wrap(
       spacing: 16,
       children: <Widget>[
-        primaryButton('Go', context, searchApartments),
-        primaryButton('My Location', context, searchApartmentsByLocation)
+        PrimaryButton('Go', searchApartments),
+        PrimaryButton('My Location', searchApartmentsByLocation)
       ],
     );
   }
