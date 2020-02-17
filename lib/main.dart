@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nestoria_appartments/initializations/initDio.dart';
+import 'package:nestoria_appartments/views/SearchPage/SearchPage.dart';
 import 'initializations/hiveInitialization.dart';
 import 'stores/LoadStore/LoadStore.dart';
-import 'views/SearchPage/SearchPage.dart';
+import 'views/HomePage/HomePage.dart';
 import 'widgets/LoadIndicator/LoadIndicator.dart';
 
 final loadStore = new LoadStore();
@@ -28,7 +29,11 @@ class MyApp extends StatelessWidget {
           MaterialApp(
             title: 'Flutter Demo',
             theme: ThemeData(primarySwatch: primaryColor),
-            home: SearchPage(),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => HomePage(),
+              '/search-page': (context) => SearchPage()
+            }
           ),
           Align(
               alignment: Alignment.center,

@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:nestoria_appartments/views/HomePage/HomePage.dart';
 import 'package:nestoria_appartments/widgets/Listing/Listing.dart';
 
 class ListingsList extends StatelessWidget {
-  final listings;
-
-  ListingsList(this.listings);
-
   Widget renderListings() {
     if (listings.list.isEmpty) {
       return SizedBox.shrink();
@@ -24,9 +21,7 @@ class ListingsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return Expanded(
-          child: renderListings()
-        );
+        return renderListings();
       }
     );
   }

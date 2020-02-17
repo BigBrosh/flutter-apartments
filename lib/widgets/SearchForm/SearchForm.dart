@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nestoria_appartments/stores/SearchField/SearchField.dart';
 import 'package:location/location.dart';
+import 'package:nestoria_appartments/views/SearchPage/SearchPage.dart';
 import 'package:nestoria_appartments/widgets/PrimaryButton/PrimaryButton.dart';
 
 final searchField = SearchField();
@@ -24,21 +25,33 @@ class SearchForm extends StatelessWidget {
     );
   }
 
-  void searchApartments() {
-    listings.getBySearchValue(searchField.searchValue);
+  Future<void> searchApartments() {
+    return listings.getBySearchValue(searchField.searchValue);
   }
 
-  void searchApartmentsByLocation() async {
+  Future<void> searchApartmentsByLocation() async {
     LocationData currentLocation = await location.getLocation();
-    listings.getByCurrentLocation(currentLocation);
+    return listings.getByCurrentLocation(currentLocation);
+  }
+
+  Future<void> goToSearchPage(Function action, BuildContext context) async {
+    await action();
+    Navigator.of(context, rootNavigator: true).push(
+      new CupertinoPageRoute<bool>(
+        builder: (BuildContext context) => SearchPage(),
+      ),
+    );
   }
 
   Widget formButtons(BuildContext context) {
     return Wrap(
       spacing: 16,
       children: <Widget>[
-        PrimaryButton('Go', searchApartments),
-        PrimaryButton('My Location', searchApartmentsByLocation)
+        PrimaryButton('Go', () => goToSearchPage(searchApartments, context)),
+        PrimaryButton(
+            'My Location',
+            () => goToSearchPage(searchApartmentsByLocation, context)
+        )
       ],
     );
   }
