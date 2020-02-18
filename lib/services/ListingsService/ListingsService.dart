@@ -13,18 +13,29 @@ class ListingsService implements ListingsServiceInterface {
       'listing_type': 'buy',
       'page': 1
   };
+  Map<String, dynamic> additionalParams = {};
 
   Future<List<dynamic>> getBySearchValue(String searchValue) {
-    return fetchByUrl({ 'place_name': searchValue });
+    additionalParams = {
+      'page': 1,
+      'place_name': searchValue
+    };
+
+    return fetchByUrl();
   }
 
   Future<List<dynamic>> getByLocation(LocationData currentLocation) {
     String latLng = '${currentLocation.latitude},${currentLocation.longitude}';
-    return fetchByUrl({ 'centre_point': latLng });
+    additionalParams = {
+      'page': 1,
+      'centre_point': latLng
+    };
+
+    return fetchByUrl();
   }
 
-  Future<List<dynamic>> fetchByUrl(Map<String, dynamic> additional) async {
-    final Map<String, dynamic> queryParameters = new Map.from(basicParams)..addAll(additional);
+  Future<List<dynamic>> fetchByUrl() async {
+    final Map<String, dynamic> queryParameters = new Map.from(basicParams)..addAll(additionalParams);
     final response = await dio.get(url, queryParameters: queryParameters);
 
     return json.decode(response.data)['response']['listings'];
