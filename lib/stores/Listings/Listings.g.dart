@@ -26,10 +26,17 @@ mixin _$Listings on _Listings, Store {
     }, _$listAtom, name: '${_$listAtom.name}_set');
   }
 
+  final _$fetchByPageAsyncAction = AsyncAction('fetchByPage');
+
+  @override
+  Future<dynamic> fetchByPage(int page) {
+    return _$fetchByPageAsyncAction.run(() => super.fetchByPage(page));
+  }
+
   final _$_ListingsActionController = ActionController(name: '_Listings');
 
   @override
-  void fetchListings(List listings) {
+  void fetchListings(Map<String, dynamic> listings) {
     final _$actionInfo = _$_ListingsActionController.startAction();
     try {
       return super.fetchListings(listings);

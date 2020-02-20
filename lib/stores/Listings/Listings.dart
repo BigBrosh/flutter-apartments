@@ -1,15 +1,16 @@
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
+import 'package:nestoria_appartments/interfaces/PaginationServiceI.dart';
 import 'package:nestoria_appartments/models/Listing.dart';
 import 'package:nestoria_appartments/services/ListingsService/ListingsService.dart';
-import 'package:nestoria_appartments/services/ListingsService/ListingsServiceInterface.dart';
+import 'package:nestoria_appartments/interfaces/ListingsServiceInterface.dart';
 part 'Listings.g.dart';
 
 final defaultService = new ListingsService();
 class Listings = _Listings with _$Listings;
 
-abstract class _Listings with Store {
-  ListingsServiceInterface listingsService;
+abstract class _Listings with Store implements PaginationServiceI {
+  ListingsServiceI listingsService;
 
   _Listings([service]) {
     this.listingsService = service ?? defaultService;
@@ -17,6 +18,7 @@ abstract class _Listings with Store {
 
   @observable
   ObservableList<ListingModel> list = new ObservableList();
+  int maxPages = 1;
 
   Future getBySearchValue(String searchValue) async {
     final listings = await this.listingsService.getBySearchValue(searchValue);
@@ -28,12 +30,21 @@ abstract class _Listings with Store {
     fetchListings(listings);
   }
 
-  @action
-  void fetchListings(List<dynamic> listings) {
-    ObservableList<ListingModel> observableListings = new ObservableList.of(
+  ObservableList<ListingModel> transformToListingModel(List<dynamic> listings) {
+    return new ObservableList.of(
         listings.map((i) => new ListingModel.fromJson(i)).toList()
     );
+  }
 
-    list = observableListings;
+  @action
+  Future fetchByPage(int page) async {
+    final listings = await this.listingsService.getByPage(page);
+    list.addAll(transformToListingModel(listings['list']));
+  }
+
+  @action
+  void fetchListings(Map<String, dynamic> listings) {
+    list = transformToListingModel(listings['list']);
+    maxPages = listings['maxPages'];
   }
 }

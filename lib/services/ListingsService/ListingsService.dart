@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:location/location.dart';
 import 'package:nestoria_appartments/initializations/initDio.dart';
-import 'package:nestoria_appartments/services/ListingsService/ListingsServiceInterface.dart';
+import 'package:nestoria_appartments/interfaces/ListingsServiceInterface.dart';
 
-class ListingsService implements ListingsServiceInterface {
+class ListingsService implements ListingsServiceI {
   final String url = 'http://api.nestoria.co.uk/api';
   final Map<String, dynamic> basicParams = {
       'country': 'uk',
@@ -15,7 +15,7 @@ class ListingsService implements ListingsServiceInterface {
   };
   Map<String, dynamic> additionalParams = {};
 
-  Future<List<dynamic>> getBySearchValue(String searchValue) {
+  Future<Map<String, dynamic>> getBySearchValue(String searchValue) {
     additionalParams = {
       'page': 1,
       'place_name': searchValue
@@ -24,7 +24,7 @@ class ListingsService implements ListingsServiceInterface {
     return fetchByUrl();
   }
 
-  Future<List<dynamic>> getByLocation(LocationData currentLocation) {
+  Future<Map<String, dynamic>> getByLocation(LocationData currentLocation) {
     String latLng = '${currentLocation.latitude},${currentLocation.longitude}';
     additionalParams = {
       'page': 1,
@@ -34,10 +34,18 @@ class ListingsService implements ListingsServiceInterface {
     return fetchByUrl();
   }
 
-  Future<List<dynamic>> fetchByUrl() async {
+  Future<Map<String, dynamic>> getByPage(int page) {
+    additionalParams['page'] = page;
+    return fetchByUrl();
+  }
+
+  Future<Map<String, dynamic>> fetchByUrl() async {
     final Map<String, dynamic> queryParameters = new Map.from(basicParams)..addAll(additionalParams);
     final response = await dio.get(url, queryParameters: queryParameters);
 
-    return json.decode(response.data)['response']['listings'];
+    return {
+      'list': json.decode(response.data)['response']['listings'],
+      'maxPages': json.decode(response.data)['response']['total_pages']
+    };
   }
 }
