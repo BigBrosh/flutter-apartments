@@ -36,6 +36,16 @@ mixin _$Listings on _Listings, Store {
   final _$_ListingsActionController = ActionController(name: '_Listings');
 
   @override
+  Future refresh() {
+    final _$actionInfo = _$_ListingsActionController.startAction();
+    try {
+      return super.refresh();
+    } finally {
+      _$_ListingsActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void fetchListings(Map<String, dynamic> listings) {
     final _$actionInfo = _$_ListingsActionController.startAction();
     try {

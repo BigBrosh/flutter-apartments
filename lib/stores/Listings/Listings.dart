@@ -37,6 +37,12 @@ abstract class _Listings with Store implements PaginationServiceI {
   }
 
   @action
+  Future refresh() {
+    list = new ObservableList();
+    return fetchByPage(1);
+  }
+
+  @action
   Future fetchByPage(int page) async {
     final listings = await this.listingsService.getByPage(page);
     list.addAll(transformToListingModel(listings['list']));

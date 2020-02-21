@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nestoria_appartments/controllers/PaginationController/PaginationController.dart';
 import 'package:nestoria_appartments/views/HomePage/HomePage.dart';
@@ -10,12 +11,15 @@ class ListingsList extends StatelessWidget {
       return SizedBox.shrink();
     }
 
-    return ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        itemCount: listings.list.length,
-        itemBuilder: (_, index) => new Listing(listings.list[index]),
-        separatorBuilder: (_, index) => SizedBox(height: 10),
-        controller: new PaginationController(listings).scrollController,
+    return RefreshIndicator(
+      onRefresh: listings.refresh,
+      child: ListView.separated(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          itemCount: listings.list.length,
+          itemBuilder: (_, index) => new Listing(listings.list[index]),
+          separatorBuilder: (_, index) => SizedBox(height: 10),
+          controller: new PaginationController(listings).scrollController,
+      ),
     );
   }
 
