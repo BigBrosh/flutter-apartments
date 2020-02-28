@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Listings.dart';
+part of 'SearchRequests.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,40 +8,34 @@ part of 'Listings.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$Listings on _Listings, Store {
-  final _$listAtom = Atom(name: '_Listings.list');
+mixin _$SearchRequests on _SearchRequests, Store {
+  final _$listAtom = Atom(name: '_SearchRequests.list');
 
   @override
-  ObservableList<ListingModel> get list {
+  List<SearchRequestM> get list {
     _$listAtom.context.enforceReadPolicy(_$listAtom);
     _$listAtom.reportObserved();
     return super.list;
   }
 
   @override
-  set list(ObservableList<ListingModel> value) {
+  set list(List<SearchRequestM> value) {
     _$listAtom.context.conditionallyRunInAction(() {
       super.list = value;
       _$listAtom.reportChanged();
     }, _$listAtom, name: '${_$listAtom.name}_set');
   }
 
-  final _$fetchByPageAsyncAction = AsyncAction('fetchByPage');
+  final _$_SearchRequestsActionController =
+      ActionController(name: '_SearchRequests');
 
   @override
-  Future<dynamic> fetchByPage(int page) {
-    return _$fetchByPageAsyncAction.run(() => super.fetchByPage(page));
-  }
-
-  final _$_ListingsActionController = ActionController(name: '_Listings');
-
-  @override
-  Map<String, dynamic> fetchListings(Map<String, dynamic> listings) {
-    final _$actionInfo = _$_ListingsActionController.startAction();
+  void add(SearchRequestM request) {
+    final _$actionInfo = _$_SearchRequestsActionController.startAction();
     try {
-      return super.fetchListings(listings);
+      return super.add(request);
     } finally {
-      _$_ListingsActionController.endAction(_$actionInfo);
+      _$_SearchRequestsActionController.endAction(_$actionInfo);
     }
   }
 }

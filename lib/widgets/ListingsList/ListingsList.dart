@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nestoria_appartments/controllers/PaginationController/PaginationController.dart';
-import 'package:nestoria_appartments/views/HomePage/HomePage.dart';
+import 'package:nestoria_appartments/stores/globalStores.dart';
 import 'package:nestoria_appartments/widgets/Listing/Listing.dart';
 
 class ListingsList extends StatelessWidget {
@@ -25,10 +25,6 @@ class ListingsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) {
-        return renderListings();
-      }
-    );
+    return Observer(builder: (_) => renderListings());
   }
 }

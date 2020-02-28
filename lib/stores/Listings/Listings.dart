@@ -19,24 +19,18 @@ abstract class _Listings with Store implements PaginationServiceI {
   @observable
   ObservableList<ListingModel> list = new ObservableList();
   int maxPages = 1;
+  int totalResults = 0;
 
-  Future getBySearchValue(String searchValue) async {
+  Future<Map<String, dynamic>> getBySearchValue(String searchValue) async {
     final listings = await this.listingsService.getBySearchValue(searchValue);
-    fetchListings(listings);
+    return fetchListings(listings);
   }
 
-  Future getByCurrentLocation(LocationData currentLocation) async {
+  Future<Map<String, dynamic>> getByCurrentLocation(LocationData currentLocation) async {
     final listings = await this.listingsService.getByLocation(currentLocation);
-    fetchListings(listings);
+    return fetchListings(listings);
   }
 
-  ObservableList<ListingModel> transformToListingModel(List<dynamic> listings) {
-    return new ObservableList.of(
-        listings.map((i) => new ListingModel.fromJson(i)).toList()
-    );
-  }
-
-  @action
   Future refresh() {
     list = new ObservableList();
     return fetchByPage(1);
@@ -49,8 +43,16 @@ abstract class _Listings with Store implements PaginationServiceI {
   }
 
   @action
-  void fetchListings(Map<String, dynamic> listings) {
+  Map<String, dynamic> fetchListings(Map<String, dynamic> listings) {
     list = transformToListingModel(listings['list']);
-    maxPages = listings['maxPages'];
+    maxPages = listings['response']['total_pages'];
+
+    return listings['response'];
+  }
+
+  ObservableList<ListingModel> transformToListingModel(List<dynamic> listings) {
+    return new ObservableList.of(
+        listings.map((i) => new ListingModel.fromJson(i)).toList()
+    );
   }
 }

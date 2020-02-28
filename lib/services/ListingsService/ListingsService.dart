@@ -42,10 +42,11 @@ class ListingsService implements ListingsServiceI {
   Future<Map<String, dynamic>> fetchByUrl() async {
     final Map<String, dynamic> queryParameters = new Map.from(basicParams)..addAll(additionalParams);
     final response = await dio.get(url, queryParameters: queryParameters);
+    final Map<String, dynamic> decoded = json.decode(response.data);
 
     return {
-      'list': json.decode(response.data)['response']['listings'],
-      'maxPages': json.decode(response.data)['response']['total_pages']
+      'list': decoded['response']['listings'],
+      'response': decoded['response']
     };
   }
 }
