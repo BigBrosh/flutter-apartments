@@ -14,17 +14,28 @@ abstract class _SearchRequestsStore with Store {
   }
 
   @action
+  void filterListBySearchValue(String searchValue) {
+    list = ObservableList.of(
+        list
+            .where((SearchRequestM listRequest) {
+              return listRequest.searchValue != searchValue;
+            })
+            .toList()
+    );
+  }
+
+  removeRequest(String searchValue) {
+    filterListBySearchValue(searchValue);
+    searchRequestsBox.put(requestFromSearch, list);
+  }
+
+  @action
   void add(SearchRequestM request) {
     Future.delayed(Duration(milliseconds: 200), () {
       request.searchValue = transformSearchValue(request.searchValue);
 
-      list = new ObservableList.of(
-          list
-            .where((SearchRequestM listRequest) => listRequest.searchValue != request.searchValue)
-            .toList()
-            ..insert(0, request)
-      );
-
+      filterListBySearchValue(request.searchValue);
+      list.insert(0, request);
       searchRequestsBox.put(requestFromSearch, list);
     });
   }

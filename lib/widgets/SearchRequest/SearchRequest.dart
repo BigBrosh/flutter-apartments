@@ -21,11 +21,17 @@ class SearchRequest extends StatelessWidget {
           child: Card(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
+                child: Row(
                   children: <Widget>[
-                    Text(searchValue),
-                    Text(totalResults.toString())
+                    Expanded(
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(searchValue),
+                          Text(totalResults.toString())
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:nestoria_appartments/models/SearchRequestM.dart';
 import 'package:nestoria_appartments/stores/SearchRequestsStore/SearchRequestsStore.dart';
 import 'package:nestoria_appartments/widgets/SearchRequest/SearchRequest.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,30 @@ class SearchRequestsList extends StatelessWidget {
                     shrinkWrap: true,
                     padding: EdgeInsets.symmetric(vertical: 8),
                     itemCount: searchRequests.list.length,
-                    itemBuilder: (_, index) => new SearchRequest(searchRequests.list[index])
+                    itemBuilder: (_, index) {
+                      final SearchRequestM searchRequest = searchRequests.list[index];
+                      final String searchValue = searchRequest.searchValue;
+
+                      return Dismissible(
+                        key: ObjectKey(searchValue),
+                        child: new SearchRequest(searchRequest),
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          alignment: AlignmentDirectional.centerEnd,
+                          color: Colors.red,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white
+                            ),
+                          ),
+                        ),
+                        onDismissed: (direction) {
+                          searchRequests.removeRequest(searchValue);
+                        },
+                      );
+                    }
                 )
               ],
             );
