@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Listings.dart';
+part of 'ListingsStore.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'Listings.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$Listings on _Listings, Store {
-  final _$listAtom = Atom(name: '_Listings.list');
+mixin _$ListingsStore on _ListingsStore, Store {
+  final _$listAtom = Atom(name: '_ListingsStore.list');
 
   @override
   ObservableList<ListingModel> get list {
@@ -33,15 +33,16 @@ mixin _$Listings on _Listings, Store {
     return _$fetchByPageAsyncAction.run(() => super.fetchByPage(page));
   }
 
-  final _$_ListingsActionController = ActionController(name: '_Listings');
+  final _$_ListingsStoreActionController =
+      ActionController(name: '_ListingsStore');
 
   @override
   Map<String, dynamic> fetchListings(Map<String, dynamic> listings) {
-    final _$actionInfo = _$_ListingsActionController.startAction();
+    final _$actionInfo = _$_ListingsStoreActionController.startAction();
     try {
       return super.fetchListings(listings);
     } finally {
-      _$_ListingsActionController.endAction(_$actionInfo);
+      _$_ListingsStoreActionController.endAction(_$actionInfo);
     }
   }
 }

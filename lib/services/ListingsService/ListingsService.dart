@@ -45,8 +45,9 @@ class ListingsService implements ListingsServiceI {
     final Map<String, dynamic> decoded = json.decode(response.data);
 
     return {
+      'response': decoded['response'],
       'list': decoded['response']['listings'],
-      'response': decoded['response']
+      'total_results': decoded['response']['total_results']
     };
   }
 }

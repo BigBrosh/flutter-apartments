@@ -1,33 +1,47 @@
+import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:nestoria_appartments/interfaces/PaginationServiceI.dart';
 import 'package:nestoria_appartments/models/Listing.dart';
-import 'package:nestoria_appartments/services/ListingsService/ListingsService.dart';
+import 'package:nestoria_appartments/models/SearchRequestM.dart';
 import 'package:nestoria_appartments/interfaces/ListingsServiceInterface.dart';
-part 'Listings.g.dart';
+import 'package:nestoria_appartments/controllers/PagesController/PagesController.dart';
+import 'package:nestoria_appartments/stores/SearchRequestsStore/SearchRequestsStore.dart';
+part 'ListingsStore.g.dart';
 
-final defaultService = new ListingsService();
-class Listings = _Listings with _$Listings;
+final location = new Location();
+class ListingsStore = _ListingsStore with _$ListingsStore;
 
-abstract class _Listings with Store implements PaginationServiceI {
+abstract class _ListingsStore with Store implements PaginationServiceI {
   ListingsServiceI listingsService;
+  SearchRequestsStore searchRequests;
 
-  _Listings([service]) {
-    this.listingsService = service ?? defaultService;
-  }
+  _ListingsStore(this.listingsService, this.searchRequests);
 
   @observable
   ObservableList<ListingModel> list = new ObservableList();
   int maxPages = 1;
   int totalResults = 0;
 
-  Future<Map<String, dynamic>> getBySearchValue(String searchValue) async {
-    final listings = await this.listingsService.getBySearchValue(searchValue);
-    return fetchListings(listings);
+  Future<Map<String, dynamic>> getBySearchValue(String searchValue, BuildContext context) async {
+    final response = await this.listingsService.getBySearchValue(searchValue);
+
+    searchRequests.add(SearchRequestM.fromJson({
+      'searchValue': searchValue,
+      'totalResults': response['total_results']
+    }));
+
+    PagesController.goToSearchPage(context);
+
+    return fetchListings(response);
   }
 
-  Future<Map<String, dynamic>> getByCurrentLocation(LocationData currentLocation) async {
+  Future<Map<String, dynamic>> getByCurrentLocation(BuildContext context) async {
+    LocationData currentLocation = await location.getLocation();
     final listings = await this.listingsService.getByLocation(currentLocation);
+
+    PagesController.goToSearchPage(context);
+
     return fetchListings(listings);
   }
 

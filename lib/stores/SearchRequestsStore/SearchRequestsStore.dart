@@ -1,13 +1,13 @@
 import 'package:mobx/mobx.dart';
 import 'package:nestoria_appartments/hiveBoxes/searchRequestsBox.dart';
 import 'package:nestoria_appartments/models/SearchRequestM.dart';
-part 'SearchRequests.g.dart';
+part 'SearchRequestsStore.g.dart';
 
-class SearchRequests = _SearchRequests with _$SearchRequests;
+class SearchRequestsStore = _SearchRequestsStore with _$SearchRequestsStore;
 
-abstract class _SearchRequests with Store {
+abstract class _SearchRequestsStore with Store {
   @observable
-  List<SearchRequestM> list = searchRequestsBox.get(requestFromSearch).cast<SearchRequestM>();
+  ObservableList<SearchRequestM> list = new ObservableList.of(searchRequestsBox.get(requestFromSearch).cast<SearchRequestM>());
 
   String transformSearchValue(String searchValue) {
     return searchValue.toLowerCase().trim();
@@ -18,10 +18,12 @@ abstract class _SearchRequests with Store {
     Future.delayed(Duration(milliseconds: 200), () {
       request.searchValue = transformSearchValue(request.searchValue);
 
-      list = list
-          .where((SearchRequestM listRequest) => listRequest.searchValue != request.searchValue)
-          .toList()
-          ..insert(0, request);
+      list = new ObservableList.of(
+          list
+            .where((SearchRequestM listRequest) => listRequest.searchValue != request.searchValue)
+            .toList()
+            ..insert(0, request)
+      );
 
       searchRequestsBox.put(requestFromSearch, list);
     });

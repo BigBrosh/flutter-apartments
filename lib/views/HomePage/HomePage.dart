@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nestoria_appartments/services/ListingsService/ListingsService.dart';
 import 'package:nestoria_appartments/widgets/SearchForm/SearchForm.dart';
 import 'package:nestoria_appartments/widgets/SearchHeader/SearchHeader.dart';
 import 'package:nestoria_appartments/widgets/SearchRequestsList/SearchRequestsList.dart';
-
-final listingsService = new ListingsService();
 
 class HomePage extends StatelessWidget {
   @override

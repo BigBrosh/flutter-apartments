@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nestoria_appartments/controllers/SearchController/SearchController.dart';
+import 'package:nestoria_appartments/stores/ListingsStore/ListingsStore.dart';
 import 'package:nestoria_appartments/stores/SearchField/SearchField.dart';
 import 'package:nestoria_appartments/widgets/PrimaryButton/PrimaryButton.dart';
+import 'package:provider/provider.dart';
 
 final searchField = new SearchField();
 
@@ -21,16 +22,18 @@ class SearchForm extends StatelessWidget {
   }
 
   Widget formButtons(BuildContext context) {
+    final listingsProvider = Provider.of<ListingsStore>(context, listen: false);
+
     return Wrap(
       spacing: 16,
       children: <Widget>[
         PrimaryButton(
           'Go',
-          () => SearchController.getApartments(searchField.searchValue, context)
+          () => listingsProvider.getBySearchValue(searchField.searchValue, context)
         ),
         PrimaryButton(
           'My Location',
-          () => SearchController.getApartmentsByLocation(context)
+          () => listingsProvider.getByCurrentLocation(context)
         )
       ],
     );

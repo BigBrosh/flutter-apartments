@@ -24,6 +24,7 @@ dependencies:
   path_provider: ^1.5.1
   dio: ^3.0.8
   location: ^2.3.5
+  provider: ^4.0.4
   flutter:
     sdk: flutter
 
