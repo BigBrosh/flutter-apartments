@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nestoria_appartments/controllers/PagesController/PagesController.dart';
 import 'package:nestoria_appartments/models/Listing.dart';
 
 class Listing extends StatelessWidget {
@@ -8,14 +9,17 @@ class Listing extends StatelessWidget {
   Listing(this.listing);
 
   Widget listingImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      child: Image.network(
-          listing.thumbUrl,
-          height: 80,
-          width: 80,
-          fit: BoxFit.cover
-      )
+    return Hero(
+      tag: listing.listerUrl,
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: Image.network(
+              listing.imgUrl,
+              height: 80,
+              width: 80,
+              fit: BoxFit.cover
+          )
+      ),
     );
   }
 
@@ -43,15 +47,18 @@ class Listing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(8),
-        child: Row(
-          children: <Widget>[
-            listingImage(),
-            SizedBox(width: 16),
-            listingInformation()
-          ],
+    return GestureDetector(
+      onTap: () => PagesController.goToListing(context, listing),
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(8),
+          child: Row(
+            children: <Widget>[
+              listingImage(),
+              SizedBox(width: 16),
+              listingInformation()
+            ],
+          ),
         ),
       ),
     );

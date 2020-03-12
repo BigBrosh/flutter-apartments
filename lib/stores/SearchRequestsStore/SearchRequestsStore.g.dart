@@ -30,6 +30,16 @@ mixin _$SearchRequestsStore on _SearchRequestsStore, Store {
       ActionController(name: '_SearchRequestsStore');
 
   @override
+  void filterListBySearchValue(String searchValue) {
+    final _$actionInfo = _$_SearchRequestsStoreActionController.startAction();
+    try {
+      return super.filterListBySearchValue(searchValue);
+    } finally {
+      _$_SearchRequestsStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void add(SearchRequestM request) {
     final _$actionInfo = _$_SearchRequestsStoreActionController.startAction();
     try {

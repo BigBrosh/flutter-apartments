@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:nestoria_appartments/hiveBoxes/searchRequestsBox.dart';
+import 'package:nestoria_appartments/libs/hive/hiveBoxes/searchRequestsBox.dart';
 import 'package:nestoria_appartments/models/SearchRequestM.dart';
 part 'SearchRequestsStore.g.dart';
 

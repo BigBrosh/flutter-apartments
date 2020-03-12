@@ -21,7 +21,6 @@ abstract class _ListingsStore with Store implements PaginationServiceI {
   @observable
   ObservableList<ListingModel> list = new ObservableList();
   int maxPages = 1;
-  int totalResults = 0;
 
   Future<Map<String, dynamic>> getBySearchValue(String searchValue, BuildContext context) async {
     final response = await this.listingsService.getBySearchValue(searchValue);
