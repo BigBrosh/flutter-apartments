@@ -18,7 +18,9 @@ class HomePage extends StatelessWidget {
             SearchHeader(),
             SearchForm(),
             SizedBox(height: 28),
-            SearchRequestsList()
+            Flexible(
+                child: SearchRequestsList()
+            )
           ],
         ),
       ),
